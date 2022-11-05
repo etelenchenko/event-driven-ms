@@ -4,6 +4,8 @@ services:
     container_name: axonserver
     image: axoniq/axonserver
     hostname: axonserver
+    environment:
+      - "AXONIQ_AXONSERVER_DEVMODE_ENABLED=true"
     volumes:
       - axonserver-data:/data
       - axonserver-events:/eventdata

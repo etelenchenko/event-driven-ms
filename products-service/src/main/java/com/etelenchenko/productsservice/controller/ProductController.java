@@ -1,21 +1,35 @@
 package com.etelenchenko.productsservice.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.etelenchenko.productsservice.command.CreateProductCommand;
+import com.etelenchenko.productsservice.rest.CreateProductRequest;
+import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private Environment environment;
+    private final CommandGateway commandGateway;
 
     @GetMapping
     public String index() {
-        return "Products service is running, port: " + environment.getProperty("local.server.port");
+        return "Products service is running";
     }
 
+    @PostMapping
+    public String create(@RequestBody @Valid CreateProductRequest createProductRequest) {
+        CreateProductCommand createProductCommand = CreateProductCommand.builder()
+                .price(createProductRequest.getPrice())
+                .title(createProductRequest.getTitle())
+                .quantity(createProductRequest.getQuantity())
+                .productId(UUID.randomUUID().toString())
+                .build();
+
+        return commandGateway.sendAndWait(createProductCommand);
+    }
 }

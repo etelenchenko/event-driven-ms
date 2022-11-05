@@ -6,7 +6,6 @@
         <artifactId>event-driven-ms</artifactId>
         <groupId>com.etelenchenko</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
