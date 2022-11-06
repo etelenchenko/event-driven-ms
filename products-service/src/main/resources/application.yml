@@ -1,5 +1,8 @@
 server:
   port: 0
+  error:
+    include-binding-errors: always
+    include-message: always
 
 eureka:
   client:
@@ -25,3 +28,9 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
+
+axon:
+  eventhandling:
+    processors:
+      product-group:
+        mode: subscribing
