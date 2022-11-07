@@ -17,10 +17,12 @@ public class ProductEventHandler {
     private final ProductRepository productRepository;
 
     @EventHandler
-    public void on(ProductCreatedEvent productCreatedEvent) {
+    public void on(ProductCreatedEvent productCreatedEvent) throws Exception {
         ProductEntity productEntity = new ProductEntity();
         BeanUtils.copyProperties(productCreatedEvent, productEntity);
 
         productRepository.save(productEntity);
+
+        throw new Exception("Forcing exception in ProductEventHandler class");
     }
 }
